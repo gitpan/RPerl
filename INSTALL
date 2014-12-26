@@ -1,0 +1,73 @@
+# RPerl v1.0 Beta 2, Install Notes
+# Last Updated December 25, 2014
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# NOTE: STEPS 0 AND 1 ARE ONLY FOR SINGLE-USER INSTALL, NOT SYSTEM-WIDE INSTALL
+# IMPORTANT WARNING: ONLY USE ONE OF STEP 1A, 1B, OR 1C - NOT ALL THREE
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+################################################################################
+# STEP 0.
+# PRE-INSTALL
+################################################################################
+
+$ mv ~/perl5 ~/perl5.old  # disable any previous local::lib or Perlbrew
+$ perl -v  # NOTE! the version of Perl determines whether you take step 1a or 1b
+
+################################################################################
+# STEP 1A.  ONLY FOR NORMAL OPERATING SYSTEMS, NOT DEBIAN WITH BROKEN PERL v5.14
+# INSTALL LOCAL::LIB & CPANMINUS, DO NOT MIX WITH PERLBREW
+################################################################################
+
+$ curl -L cpanmin.us | perl - -l $HOME/perl5 App::cpanminus local::lib
+$ echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >> ~/.bashrc
+$ source ~/.bashrc;  set | grep perl5
+# ensure the following 4 environmental variables are updated to include ~/perl5: 
+# PERL_MM_OPT, PERL_MB_OPT, PERL5LIB, PATH
+
+################################################################################
+# STEP 1B.  ONLY FOR DEBIAN WITH BROKEN PERL v5.14 AND ANYBODY WITH PERL <=v5.8
+# INSTALL PERLBREW & CPANMINUS, DO NOT MIX WITH LOCAL::LIB
+################################################################################
+
+$ wget http://www.cpan.org/src/5.0/perl-5.20.1.tar.bz2; bunzip2 perl-5.20.1.tar.bz2; cd perl-5.20.1; perl Makefile.PL; make; make test; make install
+# OR
+$ sudo apt-get install perlbrew
+# OR
+$ curl -L http://install.perlbrew.pl | bash
+
+$ perlbrew init
+$ perlbrew mirror  # Arlington, TX #222 http://mirror.uta.edu/CPAN/
+$ echo 'source ~/perl5/perlbrew/etc/bashrc' >> ~/.bashrc
+$ source ~/.bashrc; set | grep perl5
+    # ensure the following 3 environmental variables are updated to include ~/perl5: 
+    # PERLBREW_MANPATH, PERLBREW_PATH, PERLBREW_ROOT
+
+$ perlbrew install perl-5.20.1
+$ perlbrew use perl-5.20.1  # TEMPORARY
+$ perlbrew switch perl-5.20.1  # PERMANENT
+$ perlbrew install-cpanm
+
+################################################################################
+# STEP 1C.  ONLY FOR WINDOWS
+# INSTALL UPDATED GCC COMPILER
+################################################################################
+
+# RPerl on Windows has currently been tested with the Mingw64 GCC v4.8 compiler.
+# The Mingw64 GCC v4.6 and older compilers are not compatible.
+# As of April 2014, no versions of Strawberry Perl ship with a 4.8 series GCC.
+
+################################################################################
+# STEP 2.
+# INSTALL RPERL & DEPENDENCIES
+################################################################################
+
+$ cpanm WBRASWELL/RPerl-1.00_02.tar.gz
+
+################################################################################
+# STEP 3.
+# RUN RPERL COMPILER
+################################################################################
+	
+# parse your RPerl input file with abstract syntax tree output
+$ rperl -v -d YOU_RPERL_FILE.(pl|pm)

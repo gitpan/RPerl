@@ -1,0 +1,18 @@
+# VERSION 0.002_001
+# NEED FIX, CORRELATION #02: bug, possibly in Inline, causing inability to declare 3rd count_FOO argument to T_PACKEDARRAY; temporarily solved here
+# DEV NOTE: all comments must be on their own line or typemapping will silently fail and typemapped subroutines will fail to bind from Inline to Perl
+
+# SCALAR TYPES
+integer				T_PACKED
+number				T_PACKED
+string				T_PACKED
+
+# ARRAY TYPES
+integer__array_ref	T_PACKED
+number__array_ref	T_PACKED
+string__array_ref	T_PACKED
+
+# HASH TYPES
+integer__hash_ref	T_PACKED
+number__hash_ref	T_PACKED
+string__hash_ref	T_PACKED
